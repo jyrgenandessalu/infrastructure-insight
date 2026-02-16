@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Infrastructure Insight</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f7fb;
+      color: #333;
+      padding: 40px;
+      text-align: center;
+    }
+    h1 {
+      color: #0056b3;
+    }
+    .metric {
+      margin: 10px 0;
+      padding: 15px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      display: inline-block;
+      width: 300px;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+  <h1>📊 Server Metrics</h1>
+  <div id="metrics"></div>
+
+  <script>
+    async function fetchMetrics() {
+      const response = await fetch('http://localhost:5000/metrics');
+      const data = await response.json();
+      const metricsDiv = document.getElementById('metrics');
+      metricsDiv.innerHTML = Object.entries(data)
+        .map(([key, value]) => `<div class="metric"><strong>${key}</strong>: ${value}</div>`)
+        .join('');
+    }
+
+    fetchMetrics();
+    setInterval(fetchMetrics, 10000); // refresh every 10s
+  </script>
+</body>
+</html>
